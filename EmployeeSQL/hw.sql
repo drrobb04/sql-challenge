@@ -15,33 +15,47 @@ CREATE TABLE titles (
 
 
 
+-- Create tables with foreign keys
+-- Create Empolyee Table
+CREATE TABLE employee (
+	emp_no INT not null,
+	emp_title_id VARCHAR not null,
+	birth_date DATE not null,
+	first_name VARCHAR not null,
+	last_name VARCHAR not null,
+	sex VARCHAR(1) not null,
+	hire_date DATE not null, 
+	PRIMARY KEY (emp_no),
+	FOREIGN KEY (emp_title_id) REFERENCES titles(title_id)
+);
 
-
+-- Create Dept_Emp Table
 CREATE TABLE dept_emp (
-	id SERIAL PRIMARY KEY,
-	emp_no INT,
-	dept_no VARCHAR
+	emp_no INT not null,
+	dept_no VARCHAR not null,
+	PRIMARY KEY (emp_no, dept_no),
+	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+	FOREIGN KEY (emp_no) REFERENCES employee(emp_no)
 );
 
-CREATE TABLE dept_manager (
-	id SERIAL PRIMARY KEY,
-	dept_no VARCHAR,
-	emp_no INT
-);
-
-CREATE TABLE employees (
-	id SERIAL PRIMARY KEY,
-	emp_no INT,
-	emp_title VARCHAR,
-	birth_date VARCHAR,
-	first_name VARCHAR,
-	last_name VARCHAR,
-	sex VARCHAR(1),
-	hire_date VARCHAR
-);
-
+-- Create Salaries Table
 CREATE TABLE salaries (
-	id SERIAL PRIMARY KEY,
-	emp_no INT,
-	salary INT
+	emp_no INT not null,
+	salary INT not null,
+	PRIMARY KEY (emp_no),
+	FOREIGN KEY (emp_no) REFERENCES employee(emp_no)
 );
+
+-- Create Dept_Manager Table
+CREATE TABLE dept_manager (
+	dept_no VARCHAR not null,
+	emp_no INT not null,
+	PRIMARY KEY (dept_no, emp_no),
+	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+	FOREIGN KEY (emp_no) REFERENCES employee(emp_no)
+);
+
+
+
+
+
